@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student guide · {{COURSE_CODE}} {{COURSE_NAME}}</title>
+  <meta name="description" content="How to learn this course with an AI tutor: read the note, discuss the hard parts, then check yourself — plus six tricks that make it click.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Copy-to-clipboard button on prompt blocks */
+    main pre { position: relative; }
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e8dcc8;
+      background: rgba(232, 220, 200, 0.10);
+      border: 1px solid rgba(232, 220, 200, 0.30);
+      border-radius: 3px;
+      padding: 0.3rem 0.55rem;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    main pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
+    .copy-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+    .copy-btn.copied { background: var(--accent); border-color: var(--accent); color: var(--paper); opacity: 1; }
+    @media (max-width: 720px) { .copy-btn { opacity: 1; } }
+  </style>
+</head>
+<body class="compact">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
+        {{COURSE_CODE}} <span class="header-title-mark">/ {{COURSE_NAME}}</span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html" class="nav-link">Materials</a>
+        <a href="student-guide.html" class="nav-link active">Student guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        For students · Learn this course with an AI tutor
+      </div>
+      <h1>Your AI tutor, <em>set up right</em>.</h1>
+      <p class="hero-subtitle">
+        Each week ends in a closed-book test — no AI, no notes — so it rewards
+        what you can do <em>unaided</em>. The recommended loop: read this week's
+        note yourself, talk through the hard parts and extension prompts with an
+        AI tutor, then check your own understanding on the validation sheet.
+        Here's how to do each step well.
+      </p>
+    </section>
+
+    <nav class="toc">
+      <div class="toc-title">On this page</div>
+      <ol class="toc-list">
+        <li><a href="#setup"><span class="toc-number">01</span> Read, discuss, then check yourself</a></li>
+        <li><a href="#habits"><span class="toc-number">02</span> Six tricks that make it click</a></li>
+        <li><a href="#faq"><span class="toc-number">03</span> Frequently asked</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="setup">
+      <header class="section-header">
+        <span class="section-number">§ 01</span>
+        <h2 class="section-title">Read, discuss, <em>then check yourself</em></h2>
+      </header>
+
+      <p>
+        The learning sheet is written to be <em>read on your own</em>; the AI
+        is for the conversation after; the validation sheet is how you confirm
+        it stuck. Keep that order and each piece does its job.
+      </p>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-title">Grab this week's <em>materials</em></div>
+          <div class="step-content">
+            <p>
+              Open the <a href="index.html#materials">Materials</a> page, click
+              this week's learning sheet, and download the PDF (the viewer has a
+              download button). Download the <strong>validation sheet</strong>
+              too once your instructor releases it later in the week.
+            </p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Read the note through — <em>yourself</em></div>
+          <div class="step-content">
+            <p>
+              Read the sheet end to end <em>before</em> you open any AI, working
+              the examples on paper as you go, until you have an overall picture
+              of the week. Mark two things as you read: the parts that don't
+              click, and the <strong>extension prompts</strong> at the end of
+              each part — those are written for discussion, not solo reading.
+              Reading first means you arrive with specific questions instead of
+              a blank stare.
+            </p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Open an AI tutor and <em>load the sheet</em></div>
+          <div class="step-content">
+            <p>
+              No install — an AI tutor is just a website. <strong>DeepSeek</strong>
+              is free and takes PDF uploads
+              (<a href="https://chat.deepseek.com" target="_blank">chat.deepseek.com</a>);
+              <strong>Claude</strong>
+              (<a href="https://claude.ai" target="_blank">claude.ai</a>),
+              <strong>ChatGPT</strong>
+              (<a href="https://chatgpt.com" target="_blank">chatgpt.com</a>),
+              <strong>Qwen</strong>
+              (<a href="https://qwen.ai/qwenchat" target="_blank">qwen.ai</a>),
+              and <strong>Gemini</strong> work too. Make a free account, upload
+              the PDF, and set the ground rules so it acts like a tutor:
+            </p>
+<pre><code>I've attached this week's linear algebra learning sheet, which
+I've already read. Don't dump explanations on me — wait for my
+questions, keep answers short, and use a small numeric example
+whenever you can. Ready? Ask me which part I want to dig into.</code></pre>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Discuss the <em>hard parts</em> and the extensions</div>
+          <div class="step-content">
+            <p>
+              Bring your marked sticking points first — one concept at a time,
+              using the tricks in <a href="#habits">§02</a>. Then explore the
+              <strong>extension prompts</strong> with the AI: they open onto
+              history, applications, "what breaks if…", and links to other
+              weeks. They're for understanding and the mini-lecture, not the
+              closed-book test.
+            </p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Check yourself on the <em>validation sheet</em></div>
+          <div class="step-content">
+            <p>
+              Once the week makes sense, the validation sheet is how you
+              <em>verify your own understanding</em> — it practises the same
+              material the test will cover, though not the same questions or
+              difficulty. Work each question yourself, on paper, before checking
+              anything; then compare with the released answer key and use AI only
+              on what you missed. What you can't do here unaided is exactly what
+              to review before the test.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="callout">
+        <div class="callout-title">The 10-second self-check</div>
+        <p style="margin-bottom:0;">
+          After any AI session, ask yourself: <em>if I closed this chat right
+          now, could I redo this on paper?</em> If not, you watched the AI
+          work — you didn't learn it. Go back and do the step yourself.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="habits">
+      <header class="section-header">
+        <span class="section-number">§ 02</span>
+        <h2 class="section-title">Six <em>tricks</em> that make it click</h2>
+      </header>
+
+      <p>
+        These follow the path a new idea takes from <em>huh?</em> to
+        <em>got it</em> — intuition, a worked example, a try of your own, a
+        quick check, then locking it in. Each one asks the AI to make the idea
+        <em>easier</em>, not to drill you. Copy one and swap in this week's
+        topic. One caveat: use them to
+        <em>understand</em> — the actual computing you still do by hand, because
+        that's the muscle the closed-book test checks and the one thing AI
+        can't build for you.
+      </p>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-title">Start with the <em>intuition</em></div>
+          <div class="step-content">
+            <p>
+              Before symbols, get the plain-English idea and the picture. A
+              concept you can see is far easier to follow into the formulas.
+            </p>
+<pre><code>Before any formulas, explain in plain English what an eigenvalue
+is and why anyone cares, plus the geometric picture. Keep it to a
+few sentences — I'll ask for the formal definition after.</code></pre>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Walk a <em>simple example</em>, step by step</div>
+          <div class="step-content">
+            <p>
+              The fastest way in is one small, fully worked case. Ask for the
+              smallest example and have the AI narrate each step and the reason
+              for it.
+            </p>
+<pre><code>Walk me through the SIMPLEST example of solving A x = b by row
+reduction — a 2x2 system — one step at a time. After each step,
+say what you did and why, then pause before the next.</code></pre>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Now <em>try a twin</em> — hints, not answers</div>
+          <div class="step-content">
+            <p>
+              Right after a worked example, a near-identical one is easy to
+              attempt — and the attempt is what makes it stick.
+            </p>
+<pre><code>Give me a similar 2x2 system to solve myself. Let me try each
+step; if I'm stuck, give ONE small hint, not the full solution.
+Check my answer at the end.</code></pre>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">Get a quick, <em>low-stakes check</em></div>
+          <div class="step-content">
+            <p>
+              A few short questions tell you what you actually have. Asking the
+              AI to re-explain any miss <em>more simply</em> keeps it painless.
+            </p>
+<pre><code>Ask me 3 quick questions to check I understood this section, one
+at a time. If I get one wrong, re-explain that idea more simply
+with a tiny example, then ask a similar one.</code></pre>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title"><em>Lock it in</em>: one line plus a link</div>
+          <div class="step-content">
+            <p>
+              Compress the section to a sentence you could memorize and tie it
+              to something you already know — both make it much easier to recall.
+            </p>
+<pre><code>Sum up the key idea of this section in one sentence I could
+memorize, give me one everyday analogy, and tell me how it
+connects to row reduction from an earlier week.</code></pre>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title"><em>Sanity-check</em> the AI on a tiny case</div>
+          <div class="step-content">
+            <p>
+              Chat models miscount pivots, flip determinant signs, and call a
+              dependent set a basis — fluently, and a longer or more confident
+              answer is no likelier to be right. Two cheap habits catch most of
+              it: check the smallest case, and when it matters, paste the answer
+              into a <em>fresh</em> chat and ask it to find the mistake — a model
+              is bad at auditing its own work. Be most skeptical on anything
+              geometric.
+            </p>
+<pre><code>Before I trust that, check it on a 2x2 example and recompute the
+determinant (or pivot count) a second time. If your two answers
+disagree, say so instead of picking one.</code></pre>
+          </div>
+        </li>
+      </ol>
+
+      <div class="callout">
+        <div class="callout-title">More quick tricks</div>
+        <ul style="margin:0;">
+          <li>Too fast? Say <em>"explain that again like I've never seen it, with a smaller example."</em></li>
+          <li>Beat the symbols: <em>"read this equation out loud in plain English, term by term."</em></li>
+          <li>Stay ahead of pitfalls: <em>"which step do students usually get wrong here, and why?"</em></li>
+          <li>Stuck on a figure? Screenshot it and ask what it's showing about the matrix.</li>
+          <li>Keep a running <em>mistakes</em> note; paste it back and ask for two more practice questions on just those.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <header class="section-header">
+        <span class="section-number">§ 03</span>
+        <h2 class="section-title">Frequently <em>asked</em></h2>
+      </header>
+
+      <div class="faq">
+        <details>
+          <summary>Should I read the sheet myself, or just have the AI explain it?</summary>
+          <div class="faq-answer">
+            <p>
+              Read it yourself first. The note is built to be read; the AI is
+              for the conversation after — the concepts that didn't click and
+              the extension prompts, which are written for discussion. If you
+              skip the reading and let the AI narrate the sheet, you get the
+              fluent-but-forgettable tour the closed-book test punishes.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Isn't it faster to just ask for the answer?</summary>
+          <div class="faq-answer">
+            <p>
+              Faster now, slower where it counts. Copying an answer gets you
+              past one question but leaves nothing you can use when the test
+              changes the numbers — the same studies that show a speed-up on
+              routine problems show roughly a 27% drop on problems that require
+              applying the idea in a new form. The goal isn't to finish the
+              question; it's to be able to redo it with the chat closed.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>The AI and the learning sheet disagree — who's right?</summary>
+          <div class="faq-answer">
+            <p>
+              The learning sheet and the textbook win. The weekly test is
+              written from them, and large language models hallucinate linear
+              algebra with total confidence — a wrong pivot count, a sign
+              error, a "basis" that isn't independent. When they differ, trust
+              the sheet and settle it yourself on a small example.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>How does the validation set differ from the test?</summary>
+          <div class="faq-answer">
+            <p>
+              It's how you verify your <em>own</em> understanding once the
+              week's content makes sense — it covers the same scope as the
+              graded closed-book check, though with different questions and
+              difficulty. Work it yourself first, then compare with the released
+              answer key and use AI only on what you missed. It's open-resource
+              where the test is closed-book, so it's an honest self-check:
+              whatever you can't do here unaided is what to review before the
+              test.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Which AI model should I use?</summary>
+          <div class="faq-answer">
+            <p>
+              <strong>DeepSeek</strong> is free, accepts PDF uploads, and is
+              strong on step-by-step reasoning. If you have access,
+              <strong>Claude</strong>, <strong>ChatGPT</strong>, and
+              <strong>Qwen</strong> are strong general-purpose tutors, while
+              <strong>Gemini</strong> handles the longest chapters. The tricks
+              above work the same in any of them.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>How much time, and how often?</summary>
+          <div class="faq-answer">
+            <p>
+              A little, often. Several short sessions across the week beat one
+              long cram the night before — spacing is what makes the material
+              stick. Before each test, spend a few minutes letting the AI
+              re-quiz you on earlier weeks too; the gate is rarely about this
+              week alone. And keep it going all term — students who use an AI
+              tutor steadily over months gain far more than those who dip in for
+              a week.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Can I use AI during the test?</summary>
+          <div class="faq-answer">
+            <p>
+              No — the weekly test is closed-book: no AI, notes, textbook, or
+              internet. That's the whole design: AI to prepare, you to prove.
+              Everything on this page is about making sure that, when the chat
+              is gone, the skill is still yours.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
+      <span class="footer-text">
+        Built with <a href="https://typst.app" target="_blank">Typst</a>,
+        <a href="about.html">TDAA introduction</a>,
+        scaffolded by <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>.
+      </span>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    document.querySelectorAll('main pre').forEach(function (pre) {
+      var code = pre.querySelector('code');
+      if (!code) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.setAttribute('aria-label', 'Copy prompt to clipboard');
+      btn.addEventListener('click', function () {
+        var text = code.innerText;
+        var ok = function () {
+          btn.textContent = 'Copied';
+          btn.classList.add('copied');
+          setTimeout(function () {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(ok, function () { fallbackCopy(text); ok(); });
+        } else {
+          fallbackCopy(text);
+          ok();
+        }
+      });
+      pre.appendChild(btn);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{COURSE_CODE}} · {{COURSE_NAME}}</title>
+  <meta name="description" content="{{COURSE_CODE}} {{COURSE_NAME}} — Test-Driven, AI-Assisted weekly learning materials.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="landing">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
+        {{COURSE_CODE}} <span class="header-title-mark">/ {{COURSE_NAME}}</span>
+      </a>
+      <nav class="header-nav">
+        <a href="#materials" class="nav-link active">Materials</a>
+        <a href="student-guide.html" class="nav-link">Student guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero hero-compact">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Weekly materials · {{COURSE_CODE}} · {{TEXTBOOK_SHORT}}
+      </div>
+      <h1>{{COURSE_NAME}}.</h1>
+      <p class="hero-aux">
+        New here? Read the <a href="student-guide.html">student guide</a>,
+        or see <a href="about.html">how the method works</a>.
+      </p>
+    </section>
+
+    <section class="section section-flush" id="materials" aria-label="Weekly materials">
+      <div class="week-grid" id="week-grid"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
+      <span class="footer-text">
+        Built with <a href="https://typst.app" target="_blank">Typst</a>,
+        served by <a href="https://pages.github.com" target="_blank">GitHub Pages</a>,
+        <a href="about.html">TDAA introduction</a>,
+        scaffolded by <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>.
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    const weekGrid = document.getElementById('week-grid');
+    const pages = {{PAGES_JSON}};
+
+    if (pages.length === 0) {
+      weekGrid.innerHTML = `
+        <div class="empty-state">
+          <span class="empty-state-mark">∅</span>
+          No learning sheets published yet.<br>
+          The first week will appear here once it's built.
+        </div>
+      `;
+    } else {
+      const formatReleaseTime = (value) => {
+        if (!value) return '';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      };
+      const latestIdx = pages.length - 1;
+      pages.forEach((page, idx) => {
+        const card = document.createElement('div');
+        card.className = 'week-card' + (idx === latestIdx ? ' week-card-current' : '');
+        const displayTitle = page.title
+          ? page.title.replace(/^Week \d+\s*[-—:]\s*/, '')
+          : 'Learning Sheet';
+        const flag = idx === latestIdx ? '<span class="week-flag">This week</span>' : '';
+        let linksRow = '';
+        if (page.validation) {
+          let answerLink = `<span class="week-link-soon">Answer key · soon</span>`;
+          if (page.solution) {
+            answerLink = `<a href="${page.solution}">Answer key</a>`;
+          } else if (page.solutionAvailableAt) {
+            answerLink = `<span class="week-link-soon">Answer key · after ${formatReleaseTime(page.solutionAvailableAt)}</span>`;
+          }
+          linksRow = `
+            <div class="week-links">
+              <a href="${page.validation}">Exercises</a>
+              ${answerLink}
+            </div>`;
+        }
+        card.innerHTML = `
+          <div class="week-number">${page.weekNum}</div>
+          <div class="week-content">
+            <div class="week-eyebrow">Week ${page.weekNum} ${flag}</div>
+            <a class="week-title-link" href="${page.file}"><div class="week-title">${displayTitle}</div></a>
+            ${linksRow}
+          </div>
+        `;
+        weekGrid.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructor's guide · {{COURSE_CODE}} {{COURSE_NAME}}</title>
+  <meta name="description" content="A step-by-step guide to running a TDAA course: preparation, weekly rhythm, review habits, risks to watch.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="compact">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
+        {{COURSE_CODE}} <span class="header-title-mark">/ {{COURSE_NAME}}</span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html" class="nav-link">Materials</a>
+        <a href="student-guide.html" class="nav-link">Student guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        For instructors · How to run the course
+      </div>
+      <h1>Running a <em>TDAA course</em>.</h1>
+      <p class="hero-subtitle">
+        A step-by-step guide to running a TDAA course week to week:
+        what the course needs before week 1, how a single week
+        actually unfolds, the review habit that matters most, and
+        the risks worth watching. Stays close to what was used in the
+        original DSAA 3071 run.
+      </p>
+    </section>
+
+    <div class="callout">
+      <div class="callout-title">This guide vs. the setup guide</div>
+      <p style="margin-bottom:0;">
+        This page is about <em>running</em> the course. For the one-time
+        machine setup — install, fork, bootstrap, generate, build, publish,
+        grade — see the <a href="setup-guide.html">harness setup guide</a>.
+        Both pages start from <a href="about.html">About TDAA</a>.
+      </p>
+    </div>
+
+    <nav class="toc">
+      <div class="toc-title">In this guide</div>
+      <ol class="toc-list">
+        <li><a href="#before"><span class="toc-number">01</span> What the course needs before week 1</a></li>
+        <li><a href="#prepare"><span class="toc-number">02</span> Preparing the course</a></li>
+        <li><a href="#week"><span class="toc-number">03</span> Running a week</a></li>
+        <li><a href="#review"><span class="toc-number">04</span> The review habit</a></li>
+        <li><a href="#risks"><span class="toc-number">05</span> Risks to watch</a></li>
+        <li><a href="#reuse"><span class="toc-number">06</span> Reusing the materials and harness</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="before">
+      <header class="section-header">
+        <span class="section-number">§ 01</span>
+        <h2 class="section-title">What the course <em>needs</em> before week 1</h2>
+      </header>
+
+      <p>
+        An instructor needs a stable source for the course content — a
+        textbook or a complete set of notes — and a week-by-week schedule
+        that maps content onto weeks. A way to run closed-book tests, a
+        way to mark them quickly, and enough teaching staff to move
+        between groups during self-paced study are also part of the
+        operational picture.
+      </p>
+
+      <p>
+        The subject itself helps or hurts. Topics with precise definitions
+        and short proof tasks — like Theory of Computation, discrete
+        math, or formal methods — align naturally with weekly closed-book
+        tests. Subjects whose evidence of understanding is essay-length
+        or project-shaped need a different gate.
+      </p>
+
+      <div class="callout">
+        <div class="callout-title">The structural requirement</div>
+        <p style="margin-bottom:0;">
+          Beyond the subject and the schedule, the instructor needs a
+          <em>harness</em>: a controlled place to store, review, revise, and
+          rebuild weekly materials, with named AI-assisted skills for
+          drafting, reviewing, and grading. Without it, twelve weekly bundles
+          and twelve graded tests are not realistic for one person.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="prepare">
+      <header class="section-header">
+        <span class="section-number">§ 02</span>
+        <h2 class="section-title">Preparing the <em>course</em></h2>
+      </header>
+
+      <p>
+        For a new course, start from a clean starter folder rather than
+        copying any single reference course directly. The starter contains
+        the document style, the weekly folder structure, build commands,
+        and the instructions given to AI assistants when they draft and
+        review materials. Fill in the course title, textbook, instructor
+        information, week count, and schedule — that's the
+        <a href="setup-guide.html#bootstrap"><code>/bootstrap</code></a>
+        step.
+      </p>
+
+      <p>
+        Before generating the first week, read the textbook extraction and
+        the proposed schedule carefully and correct them by hand. The
+        schedule is the contract with students. If a topic is not
+        scheduled or not in the learning sheet, the test must not silently
+        introduce it.
+      </p>
+    </section>
+
+    <section class="section" id="week">
+      <header class="section-header">
+        <span class="section-number">§ 03</span>
+        <h2 class="section-title">Running a <em>week</em></h2>
+      </header>
+
+      <p>
+        Each teaching week has four steps:
+      </p>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-title">Create the <em>weekly bundle</em></div>
+          <div class="step-content">
+            <p>
+              Run <code>/generate-week N</code> to produce the learning
+              sheet, the test, the alternative test B, and the validation
+              set in one pass. Smaller skills (<code>/write-learning-sheet</code>,
+              <code>/revise</code>, <code>/write-tests</code>) give finer
+              control when needed.
+            </p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-title">Review as an <em>instructor</em></div>
+          <div class="step-content">
+            <p>
+              Read the bundle yourself with attention to definitions,
+              examples, proof steps, and the test target. This is the
+              non-negotiable step — see <a href="#review">§ 04</a>.
+            </p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-title">Publish the <em>student-facing site</em></div>
+          <div class="step-content">
+            <p>
+              Run <code>make build</code> locally to compile PDFs and viewer
+              pages, then commit and push. The included Pages workflow
+              redeploys the site automatically.
+            </p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-title">Grade and <em>return tests quickly</em></div>
+          <div class="step-content">
+            <p>
+              Fast enough that feedback helps the next learning cycle;
+              review flagged items before posting.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <h3>A representative classroom rhythm</h3>
+
+      <p>
+        The DSAA 3071 run used three contact hours per week:
+      </p>
+
+      <ul>
+        <li><strong>0:00 – 0:30</strong> — Closed-book test on the previous week's material.</li>
+        <li><strong>0:30 – 2:30</strong> — Self-paced study block. Students work in groups of about four; the instructor and TAs circulate and surface confusion. When a misconception is widespread, the instructor pauses for a short whole-room explanation.</li>
+        <li><strong>2:30 – 2:50</strong> — Discussion segment on conceptually heavy points or upcoming applications.</li>
+      </ul>
+
+      <p>
+        The new week's validation sheet is released immediately after
+        the test — while the gap is fresh — with its answers two days
+        later. That cadence is part of the design, not a detail.
+      </p>
+    </section>
+
+    <section class="section" id="review">
+      <header class="section-header">
+        <span class="section-number">§ 04</span>
+        <h2 class="section-title">The <em>review habit</em></h2>
+      </header>
+
+      <p>
+        The review step is the most important technical habit in a TDAA
+        course. AI can draft and mark quickly, but the instructor must
+        still ask:
+      </p>
+
+      <ul>
+        <li>Is the explanation in the learning sheet <strong>correct</strong>?</li>
+        <li>Does it match the <strong>textbook's notation</strong>?</li>
+        <li>Does the validation sheet actually <strong>prepare students</strong> for the test?</li>
+        <li>Does the test only ask about <strong>prepared concepts</strong> — never a term introduced for the first time on test day?</li>
+        <li>Have doubtful grading decisions been <strong>flagged</strong> for human review rather than guessed?</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Nothing ships unreviewed</div>
+        <p style="margin-bottom:0;">
+          AI operates only on the production side. The instructor is the
+          final approver on every learning sheet, test, and grade that
+          reaches a student.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="risks">
+      <header class="section-header">
+        <span class="section-number">§ 05</span>
+        <h2 class="section-title">Risks to <em>watch</em></h2>
+      </header>
+
+      <p>
+        The DSAA 3071 evidence surfaces a small set of risks. None of
+        them break the model; all of them deserve direct attention rather
+        than assumption.
+      </p>
+
+      <ul>
+        <li><strong>Narrow practice.</strong> Students may treat the validation sheet as a complete blueprint and practice too narrowly from it. Vary phrasing and surface form between validation and test while keeping the cognitive target the same.</li>
+        <li><strong>Spiky difficulty.</strong> Some weeks will feel too hard. Calibrate against prior weeks and adjust the test's point cap or worked-example density if a week lands badly.</li>
+        <li><strong>Test pressure.</strong> Weekly testing creates real, recurring pressure. The 100-of-130 cap and the validation set are the design's livability features — keep them in place.</li>
+        <li><strong>Confident but false AI reasoning.</strong> AI-written materials and AI-assisted marking can contain assertions that sound right and aren't. This is what the review habit (<a href="#review">§ 04</a>) exists to catch.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="reuse">
+      <header class="section-header">
+        <span class="section-number">§ 06</span>
+        <h2 class="section-title">Reusing the <em>materials and harness</em></h2>
+      </header>
+
+      <p>
+        The original DSAA 3071 repository is a worked example — useful as
+        a reference, but not the right place to start a new course. It
+        contains 13 weeks of Theory-of-Computation-specific content that
+        will only get in the way.
+      </p>
+
+      <p>
+        The
+        <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>
+        starter is the better starting point. It contains the reusable
+        structure — document templates, build commands, the AI-assisted
+        skills that make up the harness — without any single course's
+        weekly content. Reusing the harness is what lets another
+        instructor adopt TDAA without rebuilding the authoring and
+        grading pipeline from scratch.
+      </p>
+
+      <div class="callout">
+        <div class="callout-title">Next step</div>
+        <p style="margin-bottom:0;">
+          Ready to set up the harness on your own machine? Go to the
+          <a href="setup-guide.html">harness setup guide</a> for the
+          8-step recipe.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
+      <span class="footer-text">
+        Built with <a href="https://typst.app" target="_blank">Typst</a>,
+        <a href="about.html">TDAA introduction</a>,
+        scaffolded by <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>.
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

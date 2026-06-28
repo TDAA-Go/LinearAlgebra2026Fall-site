@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About TDAA · {{COURSE_CODE}} {{COURSE_NAME}}</title>
+  <meta name="description" content="TDAA — Test-Driven, AI-Assisted learning: the model, the rationale, and where it came from.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="compact">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
+        {{COURSE_CODE}} <span class="header-title-mark">/ {{COURSE_NAME}}</span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html" class="nav-link">Materials</a>
+        <a href="student-guide.html" class="nav-link">Student guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        The method behind the weekly cadence
+      </div>
+      <h1>Test-Driven, <em>AI-Assisted</em>.</h1>
+      <p class="hero-subtitle">
+        TDAA is a learning design for the AI era: students may use AI to
+        <em>prepare</em>, but a frequent closed-book gate asks whether they
+        can use the ideas <em>unaided</em>. AI lowers the cost of patient
+        explanation; the gate keeps the grade tied to your own understanding.
+      </p>
+    </section>
+
+    <nav class="toc">
+      <div class="toc-title">In this page</div>
+      <ol class="toc-list">
+        <li><a href="#problem"><span class="toc-number">01</span> The problem TDAA addresses</a></li>
+        <li><a href="#model"><span class="toc-number">02</span> The model: a gate and a harness</a></li>
+        <li><a href="#student"><span class="toc-number">03</span> What students see each week</a></li>
+        <li><a href="#harness"><span class="toc-number">04</span> What instructors produce</a></li>
+        <li><a href="#origin"><span class="toc-number">05</span> Where it came from</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="problem">
+      <header class="section-header">
+        <span class="section-number">§ 01</span>
+        <h2 class="section-title">The <em>problem</em></h2>
+      </header>
+
+      <p>
+        Lectures can make learning look more active than it really is. A
+        teacher explains clearly, students sit quietly, and the class still
+        leaves many students unable to solve problems on their own. Active
+        learning, peer instruction, and flipped classrooms all point to the
+        same lesson: students learn more when they have to <em>use</em>
+        ideas rather than only hear them.
+      </p>
+
+      <p>
+        Generative AI makes the old problem more urgent. AI can answer
+        questions, explain concepts, and produce text — which lowers the
+        cost of patient, individualized feedback, but also weakens a
+        familiar signal of learning. If students use AI for take-home work,
+        the submitted work may no longer show what the student personally
+        understands.
+      </p>
+
+      <div class="callout">
+        <div class="callout-title">The design question</div>
+        <p style="margin-bottom:0;">
+          How can a course give students a clear path to independent
+          performance, check that performance often and seriously, and keep
+          instructor-side workload feasible?
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="model">
+      <header class="section-header">
+        <span class="section-number">§ 02</span>
+        <h2 class="section-title">The <em>model</em></h2>
+      </header>
+
+      <p>
+        TDAA pairs two coupled parts. Either alone would fail; together they
+        carry each other.
+      </p>
+
+      <figure class="method-figure">
+        <img src="assets/fig-main.svg" alt="Overview diagram of the TDAA workflow, showing AI-assisted preparation connected to validation and frequent closed-book tests.">
+        <figcaption>
+          The TDAA loop: AI-assisted preparation makes weekly practice feasible,
+          while the closed-book gate keeps the course tied to unaided
+          understanding.
+        </figcaption>
+      </figure>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-title">A <em>strict, frequent gate</em></div>
+          <div class="step-content">
+            <p>
+              Students demonstrate unaided understanding <strong>weekly</strong>
+              instead of waiting for a final. A weekly closed-book test —
+              no AI, notes, books, or internet — gives a concrete target and
+              a predictable signal of where each student stands. The
+              retrieval-practice literature confirms what the design relies on:
+              tests do not only measure learning, they support it.
+            </p>
+          </div>
+        </li>
+
+        <li class="step">
+          <div class="step-title">An <em>AI-assisted production harness</em></div>
+          <div class="step-content">
+            <p>
+              Without an agent layer, weekly aligned testing is not
+              operationally feasible for a single instructor. The harness uses
+              AI agents to draft learning sheets, generate and review tests,
+              mark papers, and repair mistakes — always under human approval.
+              AI operates on the production side; it never appears at the
+              closed-book gate.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <p>
+        The coupling is the point. The gate makes preparation honest; the
+        harness makes the gate sustainable.
+      </p>
+    </section>
+
+    <section class="section" id="student">
+      <header class="section-header">
+        <span class="section-number">§ 03</span>
+        <h2 class="section-title">What students <em>see each week</em></h2>
+      </header>
+
+      <p>Three artifacts, all aligned to the same scope:</p>
+
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-name">Learning sheet</div>
+          <div class="model-desc">Names the week's ideas, definitions, notation, and examples. Ships with copy-paste AI prompts.</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Validation set</div>
+          <div class="model-desc">Practice problems matching the test in shape and difficulty. Open: AI, notes, peers allowed.</div>
+        </div>
+        <div class="model-card">
+          <div class="model-name">Weekly test</div>
+          <div class="model-desc">Closed-book, written in advance against the same scope. Scored out of 130, capped at 100.</div>
+        </div>
+      </div>
+
+      <p>
+        The validation set is the livability feature. Students reduce test
+        pressure by working it openly before the closed-book session —
+        scope is predictable, the threshold is explicit. The 100-of-130 cap
+        means full credit does not require a perfect paper: two missed
+        questions still leave a perfect grade, which keeps the gate strict
+        without making it cruel.
+      </p>
+
+      <p>
+        For the student week-to-week workflow on this course, see the
+        <a href="student-guide.html">student guide</a>.
+      </p>
+    </section>
+
+    <section class="section" id="harness">
+      <header class="section-header">
+        <span class="section-number">§ 04</span>
+        <h2 class="section-title">What <em>instructors produce</em></h2>
+      </header>
+
+      <p>
+        Each week needs a learning sheet, a test, an alternative test B, and
+        a validation sheet — four documents per week, plus grading.
+        Across a 13-week term, that's roughly 40 aligned bundles. No
+        instructor can keep that consistent by hand.
+      </p>
+
+      <p>
+        TDAA-Go solves the production side with a three-stage pipeline,
+        anchored to the course textbook:
+      </p>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step-title">AI <em>writer</em></div>
+          <div class="step-content">
+            <p>
+              Drafts the learning sheet against the textbook scope, then
+              generates the test, test B, and validation set from the
+              finalized sheet.
+            </p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-title">AI <em>reviewer</em></div>
+          <div class="step-content">
+            <p>
+              Challenges the draft: do tests stay inside the learning
+              sheet's scope? Are all terms defined before use? Are AI
+              prompts broad enough?
+            </p>
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-title">Human <em>approver</em></div>
+          <div class="step-content">
+            <p>
+              The instructor makes the final call before anything reaches
+              students. Nothing ships unreviewed.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="callout">
+        <div class="callout-title">Want to run a TDAA course?</div>
+        <p>
+          The instructor's guide covers preparation, the weekly rhythm,
+          the review habit, and risks to watch. For the machine recipe —
+          install, fork, bootstrap, generate, build, publish, iterate,
+          grade — see the <a href="setup-guide.html">harness setup guide</a>.
+        </p>
+        <a href="instructor-guide.html" class="cta-btn">
+          Read the instructor's guide <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="origin">
+      <header class="section-header">
+        <span class="section-number">§ 05</span>
+        <h2 class="section-title">Where it <em>came from</em></h2>
+      </header>
+
+      <p>
+        TDAA was first implemented in
+        <em>DSAA 3071, Theory of Computation</em> at HKUST(GZ) in Spring 2026 —
+        a 13-week run that produced the worked example every default in this
+        template traces back to. The methodology paper documents the run, the
+        harness, the student survey, and the limits of the design.
+      </p>
+
+      <div class="callout">
+        <div class="callout-title">Citation</div>
+        <p style="margin-bottom:0;">
+          Jin-Guo Liu, Shang-Qi Lu, Xin-Ran Shi, Long-Li Zheng and Wei Wang.
+          <em>High-Frequency Test-Driven Learning with AI: Making Strict
+          Quality Gates Acceptable and Scalable.</em> DSAA 3071, HKUST(GZ),
+          Spring 2026.
+        </p>
+      </div>
+
+      <p>
+        The template repository — document templates, build commands, and
+        the AI-assisted skills that make up the harness — is
+        <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">GiggleLiu/TDAA-Go</a>
+        on GitHub.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
+      <span class="footer-text">
+        Built with <a href="https://typst.app" target="_blank">Typst</a>,
+        <a href="about.html">TDAA introduction</a>,
+        scaffolded by <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>.
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

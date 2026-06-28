@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harness setup · {{COURSE_CODE}} {{COURSE_NAME}}</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="compact">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
+        {{COURSE_CODE}} <span class="header-title-mark">/ {{COURSE_NAME}}</span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html" class="nav-link">Materials</a>
+        <a href="student-guide.html" class="nav-link">Student guide</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        For instructors · One-time setup
+      </div>
+      <h1>Set up the <em>harness</em>.</h1>
+      <p class="hero-subtitle">
+        A step-by-step recipe for bringing up the TDAA-Go harness on a new
+        machine and producing your first week of materials. Roughly one hour
+        end-to-end. Assumes a textbook PDF, a GitHub account, and a terminal.
+      </p>
+    </section>
+
+    <div class="callout">
+      <div class="callout-title">Looking for student-facing study guidance?</div>
+      <p style="margin-bottom:0;">
+        This page documents the instructor side: forking the template,
+        bootstrapping a course, and producing weekly materials. For the
+        student-facing weekly workflow — read, prompt an AI, validate, test —
+        see the <a href="student-guide.html">student guide</a>.
+      </p>
+    </div>
+
+    <nav class="toc">
+      <div class="toc-title">In this guide</div>
+      <ol class="toc-list">
+        <li><a href="#prereqs"><span class="toc-number">01</span> Install the prerequisites</a></li>
+        <li><a href="#fork"><span class="toc-number">02</span> Fork the TDAA-Go repository</a></li>
+        <li><a href="#bootstrap"><span class="toc-number">03</span> Bootstrap the course metadata</a></li>
+        <li><a href="#generate"><span class="toc-number">04</span> Generate the first week</a></li>
+        <li><a href="#build"><span class="toc-number">05</span> Build and preview locally</a></li>
+        <li><a href="#publish"><span class="toc-number">06</span> Publish to a student-facing website</a></li>
+        <li><a href="#iterate"><span class="toc-number">07</span> Iterate weekly</a></li>
+        <li><a href="#grade"><span class="toc-number">08</span> Grade submitted work</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="prereqs">
+      <header class="section-header">
+        <span class="section-number">§ 01</span>
+        <h2 class="section-title">Install the <em>prerequisites</em></h2>
+      </header>
+
+      <p>
+        The harness needs four things installed once per machine: Typst to
+        compile the course documents, <code>uv</code> for the bootstrap
+        scripts, the GitHub CLI for creating and pushing repositories, and an
+        AI coding assistant such as Claude Code.
+      </p>
+
+      <p>On macOS with Homebrew:</p>
+<pre><code>brew install typst gh uv               # core tools
+brew install --cask claude-code        # AI assistant</code></pre>
+
+      <p>
+        On other platforms, install Typst from
+        <a href="https://typst.app" target="_blank">typst.app</a>,
+        <code>uv</code> from
+        <a href="https://docs.astral.sh/uv" target="_blank">docs.astral.sh/uv</a>,
+        the GitHub CLI from
+        <a href="https://github.com/cli/cli" target="_blank">github.com/cli/cli</a>,
+        and Claude Code (or Codex, Cursor) from the respective vendor pages.
+      </p>
+
+      <p>After installing the GitHub CLI, sign in once:</p>
+<pre><code>gh auth login  # sign in to GitHub</code></pre>
+    </section>
+
+    <section class="section" id="fork">
+      <header class="section-header">
+        <span class="section-number">§ 02</span>
+        <h2 class="section-title">Fork the <em>repository</em></h2>
+      </header>
+
+      <p>
+        The reusable harness lives in
+        <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">GiggleLiu/TDAA-Go</a>.
+        Create a fresh private copy under your own GitHub account. Replace
+        <code>my-course</code> with a short folder name such as
+        <code>automata-2026</code>:
+      </p>
+<pre><code>gh repo create my-course --private --template GiggleLiu/TDAA-Go --clone
+cd my-course</code></pre>
+
+      <p>
+        This produces a clean folder with document templates, website
+        templates, the GitHub Pages deployment workflow, build commands,
+        AI-assisted skills, and example configuration files — but none of the
+        weekly content from any reference course.
+      </p>
+    </section>
+
+    <section class="section" id="bootstrap">
+      <header class="section-header">
+        <span class="section-number">§ 03</span>
+        <h2 class="section-title">Bootstrap the <em>course metadata</em></h2>
+      </header>
+
+      <p>Open the fresh repository in the AI coding assistant:</p>
+<pre><code>claude  # start assistant</code></pre>
+
+      <p>Then run the bootstrap skill:</p>
+<pre><code>&gt; /bootstrap</code></pre>
+
+      <p>
+        The skill first asks whether you have existing course materials. If
+        so, drop syllabi, slides, exams, or notes into the
+        <code>reference/</code> folder. <code>/bootstrap</code> runs
+        <code>uv sync</code>, converts supported PDF / PPTX / DOCX / Markdown
+        / text files into <code>reference/*.md</code>, and extracts course
+        metadata from them with source and confidence notes. If you have no
+        such materials, it asks directly for course code, name, textbook
+        author/title/edition, week count, instructor name, and institution.
+      </p>
+
+      <p>From these inputs <code>/bootstrap</code> produces:</p>
+      <ul>
+        <li><code>config.toml</code> — editable course metadata (the <code>config.typ</code> shim only loads and re-exports it)</li>
+        <li>Substituted course-level placeholders in <code>.github/templates/*.html</code></li>
+        <li><code>textbook/*.md</code> — extracted definitions, theorems, proofs, and examples from the textbook PDF</li>
+        <li><code>coursedesign/schedule.typ</code> — a draft week-by-week section assignment</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Read before continuing</div>
+        <p style="margin-bottom:0;">
+          The textbook extraction and the proposed schedule should be read
+          and corrected by hand. AI extraction is good enough to start from,
+          but not good enough to ship.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="generate">
+      <header class="section-header">
+        <span class="section-number">§ 04</span>
+        <h2 class="section-title">Generate the <em>first week</em></h2>
+      </header>
+
+      <p>With the schedule in place, generate week 1:</p>
+<pre><code>&gt; /generate-week 1</code></pre>
+
+      <p>
+        The skill runs the writer-reviewer debate for the learning sheet,
+        then a similar pass for the test files. The main output is a weekly
+        bundle under <code>week1/</code>: <code>1.learning-sheet.typ</code>,
+        <code>1.test.typ</code>, <code>1.test.B.typ</code>, and
+        <code>1.validation.typ</code>.
+      </p>
+
+      <p>
+        If you want finer control, the smaller skills can be used individually:
+        <code>/write-learning-sheet</code>, <code>/review-learning-sheet</code>,
+        <code>/revise</code>, <code>/write-tests</code>, and
+        <code>/review-tests</code>.
+      </p>
+    </section>
+
+    <section class="section" id="build">
+      <header class="section-header">
+        <span class="section-number">§ 05</span>
+        <h2 class="section-title">Build and preview <em>locally</em></h2>
+      </header>
+
+      <p>
+        Compile learning sheets into the course website, or open the local
+        preview. Use <code>make build</code> for a quick check;
+        <code>make serve</code> when you want it in a browser:
+      </p>
+<pre><code>make build  # compile learning-sheet PDFs and site
+make serve  # preview at http://localhost:8000</code></pre>
+
+      <p>
+        This builds <code>_site/</code> with learning-sheet PDFs, viewer
+        pages, and this setup guide. <code>make serve</code> keeps running
+        while the preview is open; press <code>Ctrl-C</code> to stop. Tests
+        and validation sets are compiled with separate targets:
+      </p>
+<pre><code>make compile-tests   # compile test PDFs
+make dump-solutions  # compile test PDFs with solutions visible</code></pre>
+
+      <div class="callout">
+        <div class="callout-title">Review before release</div>
+        <p style="margin-bottom:0;">
+          Common issues to fix at this stage: a test that references a term
+          not defined in the learning sheet; validation and test files whose
+          question count or point distribution do not match; AI prompts that
+          are too narrow (deeper only, never broader).
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="publish">
+      <header class="section-header">
+        <span class="section-number">§ 06</span>
+        <h2 class="section-title">Publish to a <em>student-facing site</em></h2>
+      </header>
+
+      <p>
+        Ask the assistant to save the reviewed materials and push them to
+        GitHub. TDAA-Go already includes the website templates and Pages
+        workflow, and <code>/bootstrap</code> attempts to enable Pages
+        automatically when <code>gh</code> is authenticated and you have
+        repository permission:
+      </p>
+<pre><code>&gt; Commit and push the week 1 materials.</code></pre>
+
+      <p>
+        The assistant should show the files it is about to include, create a
+        commit, and push to GitHub. After the push, the GitHub Pages
+        workflow publishes the student-facing website.
+      </p>
+
+      <p>
+        If Pages was not enabled automatically: in the repo, open
+        <strong>Settings → Pages</strong> and set <strong>Source</strong> to
+        <code>GitHub Actions</code>. The included
+        <code>deploy-pages.yml</code> workflow rebuilds and republishes on
+        every push to <code>main</code> that touches <code>.typ</code>,
+        <code>.html</code>, <code>config.toml</code>, the Makefile, or the
+        workflow itself.
+      </p>
+    </section>
+
+    <section class="section" id="iterate">
+      <header class="section-header">
+        <span class="section-number">§ 07</span>
+        <h2 class="section-title">Iterate <em>weekly</em></h2>
+      </header>
+
+      <p>
+        For each subsequent week the cycle is the same generation-review-build
+        sequence followed by a push. For week 2:
+      </p>
+<pre><code>&gt; /generate-week 2
+&gt; /revise 2</code></pre>
+<pre><code>make build  # rebuild site</code></pre>
+
+      <p>Then ask the assistant:</p>
+<pre><code>&gt; Commit and push week 2.</code></pre>
+
+      <p>
+        For week 3, change <code>2</code> to <code>3</code>, and so on. Run
+        <code>make serve</code> first if you want a local preview before
+        pushing.
+      </p>
+
+      <div class="callout">
+        <div class="callout-title">Optional · Zulip drip release</div>
+        <p style="margin-bottom:0;">
+          If you set <code>zulip-stream</code> in <code>config.toml</code>
+          and add the <code>ZULIP_BOT_EMAIL</code>,
+          <code>ZULIP_BOT_API_KEY</code>, and <code>ZULIP_SITE</code> repo
+          secrets, the hourly <code>release-materials.yml</code> workflow
+          drip-releases learning sheets, validation answers, and test
+          answers per a schedule in
+          <code>coursedesign/release-schedule.json</code>. Leave
+          <code>zulip-stream</code> empty to disable the workflow entirely.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
+      <span class="footer-text">
+        Built with <a href="https://typst.app" target="_blank">Typst</a>,
+        <a href="about.html">TDAA introduction</a>,
+        scaffolded by <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>.
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

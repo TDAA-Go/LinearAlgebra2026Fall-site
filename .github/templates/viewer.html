@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{WEEK}} · {{TITLE}} — {{COURSE_CODE}}</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="viewer">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="nav-link" style="border:none;">← Back</a>
+      <div class="viewer-center">
+        <span class="week-badge">{{WEEK}}</span>
+        <span class="page-title">{{TITLE}}</span>
+      </div>
+      <a href="pdfs/{{FILENAME}}.pdf" download class="download-btn">
+        ↓ PDF
+      </a>
+    </div>
+  </header>
+  <div class="pdf-container">
+    <iframe class="pdf-frame" src="pdfs/{{FILENAME}}.pdf" title="{{WEEK}} — {{TITLE}}"></iframe>
+  </div>
+</body>
+</html>

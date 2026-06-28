@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site repo
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+
+      - name: Run unit tests
+        run: python3 -m unittest discover
+
+      - name: Build fixture site
+        run: make build COURSE_SOURCE_DIR=tests/fixtures/course SOLUTION_KEY_POLICY=schedule
+
+      - name: Check fixture artifact
+        run: |
+          scripts/check_public_site_artifacts.py _site \
+            --schedule tests/fixtures/course/coursedesign/session-schedule.json \
+            --policy schedule

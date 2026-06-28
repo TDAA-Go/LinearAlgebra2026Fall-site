@@ -1,0 +1,1 @@
+#let solution(body) = body
