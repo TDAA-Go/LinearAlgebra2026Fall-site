@@ -29,8 +29,8 @@ not publish answer keys.
 
 ## Required Secrets
 
-- `COURSE_SOURCE_DEPLOY_KEY`: private SSH key for a read-only deploy key on
-  `TDAA-Go/LinearAlgebra2026`.
+- `COURSE_SOURCE_TOKEN`: token that can read the private
+  `TDAA-Go/LinearAlgebra2026` repository.
 
 The private course repository separately needs `SITE_DISPATCH_TOKEN` so it can
 trigger this repository's `repository_dispatch` deploy workflow.

@@ -30,7 +30,7 @@ jobs:
         with:
           repository: TDAA-Go/LinearAlgebra2026
           path: ${{ env.COURSE_SOURCE_DIR }}
-          ssh-key: ${{ secrets.COURSE_SOURCE_DEPLOY_KEY }}
+          token: ${{ secrets.COURSE_SOURCE_TOKEN }}
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /config.toml
