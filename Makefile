@@ -1,4 +1,4 @@
-.PHONY: all clean serve build pdfs validation-pdfs output-pdfs viewers index setup-guide about instructor-guide student-guide styles assets compile-tests dump-solutions help watch serve-only
+.PHONY: all clean serve build pdfs validation-pdfs output-pdfs viewers index setup-guide about instructor-guide student-guide playground styles assets compile-tests dump-solutions help watch serve-only
 
 # Output directory
 SITE_DIR := _site
@@ -70,7 +70,7 @@ WEEKLY_PACKET_FILES := $(shell find "$(COURSE_SOURCE_ROOT)"/week* -maxdepth 1 -t
 
 all: build
 
-build: pdfs validation-pdfs viewers setup-guide about instructor-guide student-guide index
+build: pdfs validation-pdfs viewers setup-guide about instructor-guide student-guide playground index
 	@echo "✅ Build complete! Run 'make serve' to preview locally."
 
 # Create directories
@@ -241,6 +241,21 @@ instructor-guide: $(SITE_DIR) styles
 student-guide: $(SITE_DIR) styles
 	@echo "🎓 Rendering student guide..."
 	@$(SUB_HTML) .github/templates/student-guide.html > $(SITE_DIR)/student-guide.html
+
+
+# Render the interactive 3D playground when the course source ships one.
+# The fixture course used by CI has no playground assets; skip quietly there.
+PLAYGROUND_SRC := $(COURSE_SOURCE_ROOT)/.github/templates/assets/playground
+
+playground: $(SITE_DIR) styles
+	@if [ -d "$(PLAYGROUND_SRC)" ]; then \
+		echo "🧊 Rendering 3D playground..."; \
+		mkdir -p $(SITE_DIR)/assets/playground; \
+		cp -r "$(PLAYGROUND_SRC)/." $(SITE_DIR)/assets/playground/; \
+		$(SUB_HTML) .github/templates/playground.html > $(SITE_DIR)/playground.html; \
+	else \
+		echo "⏭️  No playground assets in course source; skipping playground page."; \
+	fi
 
 # Generate index page
 index: viewers setup-guide about instructor-guide student-guide styles

@@ -39,6 +39,7 @@ jobs:
             /week*/**.learning-sheet.typ
             /week*/**.validation.typ
             /coursedesign/session-schedule.json
+            /.github/templates/assets/playground/
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4

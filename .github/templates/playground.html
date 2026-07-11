@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground · {{COURSE_CODE}}</title>
+  <meta name="description" content="{{COURSE_CODE}} interactive 3D linear-algebra playground.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/playground/playground.css">
+  <script type="importmap">
+  { "imports": { "three": "./assets/playground/lib/three.module.min.js" } }
+  </script>
+</head>
+<body class="playground-page">
+  <header>
+    <div class="header-content">
+      <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
+        {{COURSE_CODE}} <span class="header-title-mark">/ {{COURSE_NAME}}</span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html#materials" class="nav-link">Materials</a>
+        <a href="playground.html" class="nav-link active">Playground</a>
+        <a href="student-guide.html" class="nav-link">Student guide</a>
+      </nav>
+    </div>
+  </header>
+  <main class="pg-layout">
+    <nav class="pg-sidebar" id="pg-sidebar" aria-label="Demos by week"></nav>
+    <section class="pg-stage">
+      <div class="pg-canvas" id="pg-canvas"></div>
+      <div class="pg-blurb" id="pg-blurb"></div>
+    </section>
+    <aside class="pg-panel">
+      <div class="pg-equation" id="pg-equation"></div>
+      <div class="pg-controls" id="pg-controls"></div>
+    </aside>
+  </main>
+  <div class="pg-nowebgl" id="pg-nowebgl" hidden>
+    This playground needs WebGL. Your browser has it disabled — the static
+    <a href="index.html#materials">learning sheets</a> cover the same material.
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
+      <span class="footer-text">
+        Built with <a href="https://typst.app" target="_blank">Typst</a>,
+        served by <a href="https://pages.github.com" target="_blank">GitHub Pages</a>,
+        <a href="about.html">TDAA introduction</a>,
+        scaffolded by <a href="https://github.com/GiggleLiu/TDAA-Go" target="_blank">TDAA-Go</a>.
+      </span>
+    </div>
+  </footer>
+  <script type="module" src="assets/playground/shell.js"></script>
+</body>
+</html>
