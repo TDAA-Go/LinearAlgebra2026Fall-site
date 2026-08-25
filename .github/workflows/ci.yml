@@ -18,6 +18,12 @@ jobs:
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
 
+      - name: Install CJK fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk
+          typst fonts | grep -F "Noto Serif CJK SC"
+
       - name: Run unit tests
         run: python3 -m unittest discover
 
