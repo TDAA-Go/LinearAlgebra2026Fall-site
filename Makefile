@@ -286,9 +286,11 @@ index: viewers setup-guide about instructor-guide student-guide styles
 		pages="$$pages{\"file\":\"$$filename\",\"week\":\"$$week\",\"weekNum\":\"$${weekNum}\",\"title\":\"$${escaped_title}\",\"validation\":\"$$valfile\",\"solution\":\"$$solfile\",\"solutionStatus\":\"$$solstatus\",\"solutionAvailableAt\":\"$$escaped_available\"}"; \
 	done; \
 	pages="$$pages]"; \
+	sessions=$$(python3 -c 'import json; print(json.dumps([{"week": e.get("week"), "sessionDatetime": e.get("session_datetime", "")} for e in json.load(open("$(SESSION_SCHEDULE)"))], separators=(",", ":")))' 2>/dev/null || echo '[]'); \
 	escaped_pages=$$(echo "$$pages" | sed 's/&/\\\\\\&/g'); \
+	escaped_sessions=$$(echo "$$sessions" | sed 's/&/\\\\\\&/g'); \
 	$(SUB_HTML) .github/templates/index.html | \
-	awk -v pages="$$escaped_pages" '{gsub(/\{\{PAGES_JSON\}\}/, pages); print}' 2>/dev/null > $(SITE_DIR)/index.html
+	awk -v pages="$$escaped_pages" -v sessions="$$escaped_sessions" '{gsub(/\{\{PAGES_JSON\}\}/, pages); gsub(/\{\{SESSIONS_JSON\}\}/, sessions); print}' 2>/dev/null > $(SITE_DIR)/index.html
 
 # Serve locally
 serve: build

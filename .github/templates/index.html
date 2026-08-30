@@ -26,7 +26,7 @@
     <section class="hero hero-compact">
       <div class="hero-eyebrow">
         <span class="dot"></span>
-        Weekly materials · {{COURSE_CODE}} · {{TEXTBOOK_SHORT}}
+        Weekly materials · {{COURSE_CODE}}
       </div>
       <h1>{{COURSE_NAME}}.</h1>
       <p class="hero-aux">
@@ -77,15 +77,25 @@
           minute: '2-digit'
         });
       };
-      const latestIdx = pages.length - 1;
-      pages.forEach((page, idx) => {
+      const sessions = {{SESSIONS_JSON}};
+      const now = Date.now();
+      let currentWeek = null;
+      const sessionByWeek = {};
+      sessions.forEach((s) => {
+        const t = Date.parse(s.sessionDatetime || '');
+        if (!Number.isNaN(t) && t <= now) currentWeek = s.week;
+        sessionByWeek[String(s.week)] = s.sessionDatetime;
+      });
+      pages.forEach((page) => {
+        const isCurrent = currentWeek !== null && String(page.weekNum) === String(currentWeek);
+        const sessionLabel = formatReleaseTime(sessionByWeek[String(page.weekNum)]);
         const card = document.createElement('div');
-        card.className = 'week-card' + (idx === latestIdx ? ' week-card-current' : '');
+        card.className = 'week-card' + (isCurrent ? ' week-card-current' : '');
         const displayTitle = page.title
           ? page.title.replace(/^Week \d+\s*[-—:]\s*/, '')
           : 'Learning Sheet';
-        const flag = idx === latestIdx ? '<span class="week-flag">This week</span>' : '';
-        let linksRow = '';
+        const flag = isCurrent ? '<span class="week-flag">This week</span>' : '';
+        let exerciseLinks = '';
         if (page.validation) {
           let answerLink = `<span class="week-link-soon">Answer key · soon</span>`;
           if (page.solution) {
@@ -93,18 +103,19 @@
           } else if (page.solutionAvailableAt) {
             answerLink = `<span class="week-link-soon">Answer key · after ${formatReleaseTime(page.solutionAvailableAt)}</span>`;
           }
-          linksRow = `
-            <div class="week-links">
+          exerciseLinks = `
               <a href="${page.validation}">Exercises</a>
-              ${answerLink}
-            </div>`;
+              ${answerLink}`;
         }
         card.innerHTML = `
           <div class="week-number">${page.weekNum}</div>
           <div class="week-content">
-            <div class="week-eyebrow">Week ${page.weekNum} ${flag}</div>
-            <a class="week-title-link" href="${page.file}"><div class="week-title">${displayTitle}</div></a>
-            ${linksRow}
+            <div class="week-eyebrow">Week ${page.weekNum}${sessionLabel ? ' · ' + sessionLabel : ''} ${flag}</div>
+            <div class="week-title">${displayTitle}</div>
+            <div class="week-links">
+              <a href="${page.file}">Learning Sheet</a>
+              ${exerciseLinks}
+            </div>
           </div>
         `;
         weekGrid.appendChild(card);

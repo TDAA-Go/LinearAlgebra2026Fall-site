@@ -365,11 +365,7 @@ body > header {
   color: var(--ink);
   margin-bottom: 0.45rem;
   letter-spacing: -0.005em;
-  transition: color 0.2s ease;
 }
-
-.week-title-link { text-decoration: none; color: inherit; display: block; }
-.week-card:hover .week-title { color: var(--accent); }
 
 .week-links {
   display: flex;
