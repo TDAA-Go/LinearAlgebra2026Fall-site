@@ -35,16 +35,9 @@
       <div class="pg-description">
         <div class="pg-week-label" id="pg-week-label"></div>
         <h1 id="pg-heading" tabindex="-1"></h1>
-        <details class="pg-context">
-          <summary>Context and how to read the figure</summary>
-          <div id="pg-intro"></div>
-          <div class="pg-blurb" id="pg-blurb"></div>
-          <p id="pg-keyboard-help">For editable vectors, drag an arrow tip or Tab to its label and use the arrow keys. Page Up/Down changes z in 3D. Hold Shift for larger steps.</p>
-        </details>
-        <div class="pg-activity">
-          <p><strong>Predict.</strong> <span id="pg-question"></span></p>
-          <p><strong>Try.</strong> <span id="pg-action"></span></p>
-        </div>
+        <div class="pg-activity"><p><strong id="pg-activity-label">Challenge.</strong> <span id="pg-goal"></span></p></div>
+        <details class="pg-context" id="pg-hint"><summary>Hint</summary><p id="pg-hint-text"></p></details>
+        <p class="pg-input-help" id="pg-keyboard-help">Drag an editable arrow tip, or Tab to its label and use arrow keys. Page Up/Down changes z; Shift takes larger steps.</p>
       </div>
       <div class="pg-toolbar">
         <span id="pg-gesture-hint"></span>
@@ -58,16 +51,16 @@
     </section>
     <aside class="pg-panel" aria-label="Demo values and controls">
       <div class="pg-panel-heading">
-        <h2>Explore</h2>
-        <button type="button" class="vv-btn" id="pg-reset-demo">Reset demo</button>
+        <h2 id="pg-panel-title">Your attempt</h2>
+        <button type="button" class="vv-btn" id="pg-reset-demo">Restart challenge</button>
       </div>
       <div class="pg-equation" id="pg-equation"></div>
       <div class="pg-controls" id="pg-controls"></div>
-      <details class="pg-explanation" id="pg-explanation">
-        <summary>Explain what happened</summary>
-        <p id="pg-insight"></p>
+      <div class="pg-check">
+        <button type="button" class="vv-btn" id="pg-check-goal">Check goal</button>
+        <p id="pg-feedback" class="vv-challenge-feedback" role="status" aria-live="polite"></p>
         <a id="pg-notes-link" href="index.html#materials">Continue with the learning sheet</a>
-      </details>
+      </div>
     </aside>
   </main>
   <div class="pg-nowebgl" id="pg-nowebgl" role="alert" hidden>
