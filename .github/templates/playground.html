@@ -12,6 +12,7 @@
   </script>
 </head>
 <body class="playground-page">
+  <a class="pg-skip" href="#pg-heading">Skip to demo</a>
   <header>
     <div class="header-content">
       <a href="index.html" class="header-title" style="text-decoration:none;border:none;color:inherit;">
@@ -19,26 +20,61 @@
       </a>
       <nav class="header-nav">
         <a href="index.html#materials" class="nav-link">Materials</a>
-        <a href="playground.html" class="nav-link active">Playground</a>
+        <a href="playground.html" class="nav-link active" aria-current="page">Playground</a>
         <a href="student-guide.html" class="nav-link">Student guide</a>
       </nav>
     </div>
   </header>
   <main class="pg-layout">
+    <div class="pg-picker">
+      <label for="pg-demo-select">Choose a demo</label>
+      <select id="pg-demo-select"></select>
+    </div>
     <nav class="pg-sidebar" id="pg-sidebar" aria-label="Demos by week"></nav>
-    <section class="pg-stage">
-      <div class="pg-blurb" id="pg-blurb"></div>
-      <div class="pg-canvas" id="pg-canvas"></div>
+    <section class="pg-stage" aria-labelledby="pg-heading">
+      <div class="pg-description">
+        <div class="pg-week-label" id="pg-week-label"></div>
+        <h1 id="pg-heading" tabindex="-1"></h1>
+        <details class="pg-context">
+          <summary>Context and how to read the figure</summary>
+          <div id="pg-intro"></div>
+          <div class="pg-blurb" id="pg-blurb"></div>
+          <p id="pg-keyboard-help">For editable vectors, drag an arrow tip or Tab to its label and use the arrow keys. Page Up/Down changes z in 3D. Hold Shift for larger steps.</p>
+        </details>
+        <div class="pg-activity">
+          <p><strong>Predict.</strong> <span id="pg-question"></span></p>
+          <p><strong>Try.</strong> <span id="pg-action"></span></p>
+        </div>
+      </div>
+      <div class="pg-toolbar">
+        <span id="pg-gesture-hint"></span>
+        <div class="pg-view-actions">
+          <span class="pg-dim" id="pg-dim" role="group" aria-label="Dimensions"></span>
+          <button type="button" class="vv-btn" id="pg-reset-view">Reset view</button>
+        </div>
+      </div>
+      <div class="pg-canvas" id="pg-canvas" role="group" aria-label="Interactive figure" aria-describedby="pg-gesture-hint"></div>
+      <div class="pg-legend">Read the labels: black marks given objects, blue shows derived objects, gray provides reference geometry.</div>
     </section>
-    <aside class="pg-panel">
+    <aside class="pg-panel" aria-label="Demo values and controls">
+      <div class="pg-panel-heading">
+        <h2>Explore</h2>
+        <button type="button" class="vv-btn" id="pg-reset-demo">Reset demo</button>
+      </div>
       <div class="pg-equation" id="pg-equation"></div>
       <div class="pg-controls" id="pg-controls"></div>
+      <details class="pg-explanation" id="pg-explanation">
+        <summary>Explain what happened</summary>
+        <p id="pg-insight"></p>
+        <a id="pg-notes-link" href="index.html#materials">Continue with the learning sheet</a>
+      </details>
     </aside>
   </main>
-  <div class="pg-nowebgl" id="pg-nowebgl" hidden>
-    This playground needs WebGL. Your browser has it disabled — the static
-    <a href="index.html#materials">learning sheets</a> cover the same material.
+  <div class="pg-nowebgl" id="pg-nowebgl" role="alert" hidden>
+    The interactive figure could not start. Try a browser with WebGL enabled, or use the
+    <a href="index.html#materials">learning sheets</a>, which cover the same material.
   </div>
+  <noscript><p class="pg-nowebgl">Enable JavaScript to use the playground, or open the <a href="index.html#materials">learning sheets</a>.</p></noscript>
   <footer>
     <div class="footer-inner">
       <span class="footer-mark">{{COURSE_CODE}} · {{INSTITUTION}}</span>
