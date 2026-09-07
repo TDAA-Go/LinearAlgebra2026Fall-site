@@ -1,6 +1,8 @@
+import os
 import re
 import socket
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -33,6 +35,23 @@ def run_make_dry_run_result(*args: str) -> subprocess.CompletedProcess[str]:
 
 
 class WebsiteMakefileTest(unittest.TestCase):
+    def test_pdf_build_stops_when_an_earlier_compilation_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            compiler = Path(tempdir) / "typst"
+            compiler.write_text('#!/bin/sh\ncase "$*" in *fail.typ*) exit 1;; esac\n')
+            compiler.chmod(0o755)
+            env = dict(os.environ, PATH=tempdir + os.pathsep + os.environ["PATH"])
+            for target, variable in (("pdfs", "LEARNING_SHEETS"),
+                                     ("validation-pdfs", "VALIDATION_FILES")):
+                with self.subTest(target=target):
+                    result = subprocess.run(
+                        ["make", target, f"{variable}=week1/fail.typ week2/ok.typ",
+                         f"SITE_DIR={tempdir}/site", "SOLUTION_KEY_POLICY=none"],
+                        cwd=ROOT, env=env, capture_output=True, text=True,
+                    )
+                    self.assertNotEqual(result.returncode, 0, result.stdout)
+                    self.assertNotIn("→ week2/ok.typ", result.stdout)
+
     def test_build_reads_course_sources_from_configured_source_dir(self) -> None:
         output = run_make_dry_run(
             "validation-pdfs",

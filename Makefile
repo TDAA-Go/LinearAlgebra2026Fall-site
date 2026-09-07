@@ -94,7 +94,7 @@ pdfs: $(PDF_DIR)
 		basename=$$(basename "$$file" .typ); \
 		week=$$(basename "$$dir"); \
 		echo "  → $$file"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf" || exit $$?; \
 	done
 
 # Compile each week's validation exercise sheet for the website. The worked
@@ -108,10 +108,10 @@ validation-pdfs: $(PDF_DIR)
 		week=$$(basename "$$dir"); \
 		week_num=$${week#week}; \
 		echo "  → $$file (exercises)"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf" || exit $$?; \
 		if $(SOLUTION_RELEASE) is-released --schedule "$(SESSION_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$week_num"; then \
 			echo "  → $$file (answer key)"; \
-			typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf"; \
+			typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf" || exit $$?; \
 		else \
 			echo "  → $$file (answer key pending)"; \
 		fi; \
@@ -127,7 +127,7 @@ output-pdfs: $(OUTPUT_PDF_DIR)
 		pdf_name=$$(basename "$$src" .typ).pdf; \
 		echo "  → $$src"; \
 		mkdir -p "$$packet_dir/$$week"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$src" "$$packet_dir/$$week/$$pdf_name"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$src" "$$packet_dir/$$week/$$pdf_name" || exit $$?; \
 	done; \
 	echo "✅ Weekly PDF packet compiled to $$packet_dir/"
 
@@ -139,14 +139,14 @@ compile-tests: $(PDF_DIR)
 		basename=$$(basename "$$file" .typ); \
 		week=$$(basename "$$dir"); \
 		echo "  → $$file"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf" || exit $$?; \
 	done
 	@for file in $(VALIDATION_FILES); do \
 		dir=$$(dirname "$$file"); \
 		basename=$$(basename "$$file" .typ); \
 		week=$$(basename "$$dir"); \
 		echo "  → $$file"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf" || exit $$?; \
 	done
 	@echo "✅ Test and validation PDFs compiled to $(PDF_DIR)/"
 
@@ -158,14 +158,14 @@ dump-solutions: $(PDF_DIR)
 		basename=$$(basename "$$file" .typ); \
 		week=$$(basename "$$dir"); \
 		echo "  → $$file"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf" || exit $$?; \
 	done
 	@for file in $(VALIDATION_FILES); do \
 		dir=$$(dirname "$$file"); \
 		basename=$$(basename "$$file" .typ); \
 		week=$$(basename "$$dir"); \
 		echo "  → $$file"; \
-		typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf"; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf" || exit $$?; \
 	done
 	@echo "✅ Solution PDFs compiled to $(PDF_DIR)/"
 

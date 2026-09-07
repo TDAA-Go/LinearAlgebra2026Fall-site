@@ -1,6 +1,9 @@
 name: Deploy Course Site to GitHub Pages
 
 on:
+  schedule:
+    # Re-evaluate answer-key release times even when course files do not change.
+    - cron: '7 * * * *'
   repository_dispatch:
     types: [course-materials-updated]
   workflow_dispatch:
@@ -38,6 +41,8 @@ jobs:
             /templates/
             /week*/**.learning-sheet.typ
             /week*/**.validation.typ
+            /week*/images/
+            /week*/*.bib
             /coursedesign/session-schedule.json
             /.github/templates/assets/playground/
 
