@@ -44,6 +44,7 @@ jobs:
             /week*/images/
             /week*/*.bib
             /coursedesign/session-schedule.json
+            /.github/templates/playground.html
             /.github/templates/assets/playground/
 
       - name: Setup Typst

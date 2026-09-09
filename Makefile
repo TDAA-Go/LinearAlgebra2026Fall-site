@@ -252,7 +252,7 @@ playground: $(SITE_DIR) styles
 		echo "🧊 Rendering 3D playground..."; \
 		mkdir -p $(SITE_DIR)/assets/playground; \
 		cp -r "$(PLAYGROUND_SRC)/." $(SITE_DIR)/assets/playground/; \
-		$(SUB_HTML) .github/templates/playground.html > $(SITE_DIR)/playground.html; \
+		$(SUB_HTML) "$(COURSE_SOURCE_ROOT)/.github/templates/playground.html" > $(SITE_DIR)/playground.html; \
 	else \
 		echo "⏭️  No playground assets in course source; skipping playground page."; \
 	fi

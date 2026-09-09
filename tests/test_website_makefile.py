@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 import socket
 import subprocess
 import tempfile
@@ -35,6 +36,24 @@ def run_make_dry_run_result(*args: str) -> subprocess.CompletedProcess[str]:
 
 
 class WebsiteMakefileTest(unittest.TestCase):
+    def test_playground_html_and_assets_come_from_same_course_source(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            course = Path(tmp) / "course"
+            site = Path(tmp) / "site"
+            shutil.copytree(FIXTURE_COURSE, course)
+            templates = course / ".github/templates"
+            assets = templates / "assets/playground"
+            assets.mkdir(parents=True)
+            (templates / "playground.html").write_text("<title>{{COURSE_CODE}}</title><div id='course-demo'></div>")
+            (assets / "shell.js").write_text("document.getElementById('course-demo');")
+            subprocess.run(
+                ["make", "playground", f"COURSE_SOURCE_DIR={course}", f"SITE_DIR={site}"],
+                cwd=ROOT, check=True, capture_output=True, text=True,
+            )
+            self.assertIn("id='course-demo'", (site / "playground.html").read_text())
+            self.assertNotIn("{{COURSE_CODE}}", (site / "playground.html").read_text())
+            self.assertEqual((assets / "shell.js").read_bytes(), (site / "assets/playground/shell.js").read_bytes())
+
     def test_pdf_build_stops_when_an_earlier_compilation_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             compiler = Path(tempdir) / "typst"
