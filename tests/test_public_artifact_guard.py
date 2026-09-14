@@ -28,7 +28,7 @@ class PublicArtifactGuardTest(unittest.TestCase):
             site = Path(tempdir)
             (site / "pdfs").mkdir()
             (site / "pdfs" / "week1-1.validation-solution.pdf").write_bytes(b"%PDF")
-            schedule = site / "session-schedule.json"
+            schedule = site / "release-schedule.json"
             schedule.write_text(
                 '[{"week": 1, "session_datetime": "TBD"}]',
                 encoding="utf-8",
@@ -52,11 +52,10 @@ class PublicArtifactGuardTest(unittest.TestCase):
             site = Path(tempdir)
             (site / "pdfs").mkdir()
             (site / "pdfs" / "week1-1.validation-solution.pdf").write_bytes(b"%PDF")
-            schedule = site / "session-schedule.json"
+            schedule = site / "release-schedule.json"
             schedule.write_text(
                 (
-                    '[{"week": 1, "session_datetime": "2026-09-08T10:30:00+08:00", '
-                    '"solution_release_delay_days": 2}]'
+                    '[{"week": 1, "action": "validation", "date": "2026-09-10", "time": "10:30"}]'
                 ),
                 encoding="utf-8",
             )

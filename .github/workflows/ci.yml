@@ -33,5 +33,5 @@ jobs:
       - name: Check fixture artifact
         run: |
           scripts/check_public_site_artifacts.py _site \
-            --schedule tests/fixtures/course/coursedesign/session-schedule.json \
+            --schedule tests/fixtures/course/coursedesign/release-schedule.json \
             --policy schedule

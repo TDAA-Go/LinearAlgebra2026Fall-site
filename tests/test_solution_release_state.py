@@ -10,25 +10,57 @@ SCRIPT = ROOT / "scripts" / "solution_release_state.py"
 
 
 class SolutionReleaseStateTest(unittest.TestCase):
-    def test_tbd_session_date_keeps_solution_pending(self) -> None:
+    def test_holiday_weeks_share_the_explicit_monday_release(self) -> None:
+        with self._schedule(*[
+            {"week": week, "action": "validation", "date": "2026-10-12", "time": "12:00"}
+            for week in (4, 5)
+        ]) as schedule:
+            for week in (4, 5):
+                self.assertEqual(self._status(schedule, week=week, now="2026-10-12T11:59:59+08:00"), "pending")
+                self.assertEqual(self._status(schedule, week=week, now="2026-10-12T12:00:00+08:00"), "released")
+
+    def test_learning_and_test_events_do_not_release_validation(self) -> None:
+        with self._schedule(
+            {"week": 2, "action": "learning-sheet", "date": "2026-09-11", "time": "15:00"},
+            {"week": 2, "action": "test-answer", "date": "2026-09-18", "time": "16:00"},
+        ) as schedule:
+            self.assertEqual(self._status(schedule, week=2, now="2026-09-20T12:00:00+08:00"), "pending")
+
+    def test_duplicate_and_invalid_releases_fail_closed(self) -> None:
+        event = {"week": 2, "action": "validation", "date": "2026-09-14", "time": "12:00"}
+        for entries in ([event, event], [dict(event, time="invalid")]):
+            with self.subTest(entries=entries), self._schedule(*entries) as schedule:
+                result = subprocess.run([
+                    "python3", str(SCRIPT), "is-released", "--schedule", str(schedule),
+                    "--week", "2", "--now", "2026-09-14T12:00:00+08:00",
+                ], capture_output=True, text=True)
+                self.assertEqual(result.returncode, 2, result.stderr)
+
+    def test_available_at_matches_explicit_schedule(self) -> None:
+        with self._schedule({"week": 2, "action": "validation", "date": "2026-09-14", "time": "12:00"}) as schedule:
+            result = subprocess.run([
+                "python3", str(SCRIPT), "available-at", "--schedule", str(schedule), "--week", "2",
+            ], check=True, capture_output=True, text=True)
+            self.assertEqual(result.stdout.strip(), "2026-09-14T12:00:00+08:00")
+
+    def test_session_date_alone_cannot_release_answers(self) -> None:
         with self._schedule({"week": 1, "session_datetime": "TBD"}) as schedule:
             status = self._status(schedule, week=1)
 
         self.assertEqual(status, "pending")
 
-    def test_schedule_releases_solution_two_days_after_session(self) -> None:
+    def test_schedule_releases_answers_at_noon_beijing(self) -> None:
         with self._schedule(
             {
                 "week": 2,
-                "session_datetime": "2026-09-08T10:30:00+08:00",
-                "solution_release_delay_days": 2,
+                "action": "validation", "date": "2026-09-14", "time": "12:00",
             }
         ) as schedule:
-            before = self._status(schedule, week=2, now="2026-09-10T10:29:00+08:00")
+            before = self._status(schedule, week=2, now="2026-09-14T11:59:59+08:00")
             at_release = self._status(
                 schedule,
                 week=2,
-                now="2026-09-10T10:30:00+08:00",
+                now="2026-09-14T04:00:00Z",
             )
 
         self.assertEqual(before, "pending")
@@ -100,7 +132,7 @@ class SolutionReleaseStateTest(unittest.TestCase):
 
     def _schedule(self, *entries: dict[str, object]):
         tempdir = tempfile.TemporaryDirectory()
-        path = Path(tempdir.name) / "session-schedule.json"
+        path = Path(tempdir.name) / "release-schedule.json"
         path.write_text(json.dumps(list(entries)), encoding="utf-8")
 
         class ScheduleContext:

@@ -51,7 +51,7 @@ def check_site(
         if path.is_file() and match:
             week = int(match.group("week"))
             state = release_state(
-                schedule_path=schedule or Path("__missing_session_schedule__.json"),
+                schedule_path=schedule or Path("__missing_release_schedule__.json"),
                 policy=policy,
                 week=week,
                 now=now,
