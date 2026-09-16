@@ -13,7 +13,7 @@ at build time and publishes only generated public artifacts.
 python3 -m unittest discover
 make build COURSE_SOURCE_DIR=tests/fixtures/course SOLUTION_KEY_POLICY=schedule
 scripts/check_public_site_artifacts.py _site \
-  --schedule tests/fixtures/course/coursedesign/session-schedule.json \
+  --schedule tests/fixtures/course/coursedesign/release-schedule.json \
   --policy schedule
 ```
 
@@ -24,8 +24,12 @@ make build COURSE_SOURCE_DIR=vendor/course-source SOLUTION_KEY_POLICY=schedule
 ```
 
 `SOLUTION_KEY_POLICY=schedule` publishes a week's validation answer key only
-after that week's configured session time plus two days. `TBD` session dates do
-not publish answer keys.
+at the `validation` event in the course `coursedesign/release-schedule.json`,
+using Beijing time. A missing event keeps the answer key unpublished.
+`session-schedule.json` controls the homepage current-week indicator only.
+The private course release workflow checks the live homepage, answer viewer,
+and PDF, dispatches a rebuild if publication is incomplete, and verifies it
+before reporting success. Hourly site builds remain a backup.
 
 ## Required Secrets
 

@@ -13,6 +13,7 @@ SERVE_PORT = $(shell python3 scripts/find_free_port.py $(PORT) $(PORT_SCAN_LIMIT
 COURSE_SOURCE_DIR ?= tests/fixtures/course
 COURSE_SOURCE_ROOT := $(abspath $(COURSE_SOURCE_DIR))
 SESSION_SCHEDULE ?= $(COURSE_SOURCE_ROOT)/coursedesign/session-schedule.json
+RELEASE_SCHEDULE ?= $(COURSE_SOURCE_ROOT)/coursedesign/release-schedule.json
 SOLUTION_RELEASE := python3 scripts/solution_release_state.py
 
 # Whether worked answer keys are published to the website:
@@ -109,10 +110,11 @@ validation-pdfs: $(PDF_DIR)
 		week_num=$${week#week}; \
 		echo "  → $$file (exercises)"; \
 		typst compile --root "$(COURSE_SOURCE_ROOT)" "$$file" "$(PDF_DIR)/$${week}-$${basename}.pdf" || exit $$?; \
-		if $(SOLUTION_RELEASE) is-released --schedule "$(SESSION_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$week_num"; then \
+		if $(SOLUTION_RELEASE) is-released --schedule "$(RELEASE_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$week_num"; then \
 			echo "  → $$file (answer key)"; \
 			typst compile --root "$(COURSE_SOURCE_ROOT)" --input hide-solution=false "$$file" "$(PDF_DIR)/$${week}-$${basename}-solution.pdf" || exit $$?; \
 		else \
+			status=$$?; [ "$$status" -eq 1 ] || exit "$$status"; \
 			echo "  → $$file (answer key pending)"; \
 		fi; \
 	done
@@ -274,8 +276,8 @@ index: viewers setup-guide about instructor-guide student-guide styles
 		fi; \
 		valfile=$$(find $(SITE_DIR) -maxdepth 1 -name "week$${weekNum}-*.validation.html" -exec basename {} \; 2>/dev/null | head -1); \
 		solfile=$$(find $(SITE_DIR) -maxdepth 1 -name "week$${weekNum}-*.validation-solution.html" -exec basename {} \; 2>/dev/null | head -1); \
-		solstatus=$$($(SOLUTION_RELEASE) status --schedule "$(SESSION_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$weekNum" 2>/dev/null || echo pending); \
-		solavailable=$$($(SOLUTION_RELEASE) available-at --schedule "$(SESSION_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$weekNum" 2>/dev/null || true); \
+		solstatus=$$($(SOLUTION_RELEASE) status --schedule "$(RELEASE_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$weekNum" ) || exit $$?; \
+		solavailable=$$($(SOLUTION_RELEASE) available-at --schedule "$(RELEASE_SCHEDULE)" --policy "$(SOLUTION_KEY_POLICY)" --week "$$weekNum" ) || exit $$?; \
 		if [ "$$first" = true ]; then \
 			first=false; \
 		else \

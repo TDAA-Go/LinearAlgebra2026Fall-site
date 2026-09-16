@@ -7,7 +7,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -40,12 +40,10 @@ def release_state(
     if entry is None:
         return ReleaseState("pending", None)
 
-    session_time = _parse_datetime(entry.get("session_datetime"))
-    if session_time is None:
-        return ReleaseState("pending", None)
-
-    delay_days = _delay_days(entry)
-    available_at = session_time + timedelta(days=delay_days)
+    # The course release schedule stores wall-clock times in Asia/Shanghai.
+    available_at = _parse_datetime(f"{entry.get('date')}T{entry.get('time')}+08:00")
+    if available_at is None:
+        raise ValueError(f"invalid validation release time for week {week}")
     now = now or datetime.now(timezone.utc)
     if _aware(now) >= _aware(available_at):
         return ReleaseState("released", available_at)
@@ -63,10 +61,11 @@ def _load_schedule(path: Path) -> list[dict[str, Any]]:
 
 
 def _entry_for_week(schedule: list[dict[str, Any]], week: int) -> dict[str, Any] | None:
-    for entry in schedule:
-        if entry.get("week") == week:
-            return entry
-    return None
+    entries = [entry for entry in schedule
+               if entry.get("week") == week and entry.get("action") == "validation"]
+    if len(entries) > 1:
+        raise ValueError(f"duplicate validation release for week {week}")
+    return entries[0] if entries else None
 
 
 def _parse_datetime(value: object) -> datetime | None:
@@ -79,15 +78,6 @@ def _parse_datetime(value: object) -> datetime | None:
         return datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
         return None
-
-
-def _delay_days(entry: dict[str, Any]) -> int:
-    value = entry.get("solution_release_delay_days", 2)
-    try:
-        delay = int(value)
-    except (TypeError, ValueError):
-        return 2
-    return max(delay, 0)
 
 
 def _aware(value: datetime) -> datetime:

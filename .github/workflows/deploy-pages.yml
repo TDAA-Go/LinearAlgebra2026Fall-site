@@ -43,6 +43,7 @@ jobs:
             /week*/**.validation.typ
             /week*/images/
             /week*/*.bib
+            /coursedesign/release-schedule.json
             /coursedesign/session-schedule.json
             /.github/templates/playground.html
             /.github/templates/assets/playground/
@@ -65,7 +66,7 @@ jobs:
       - name: Check public artifact
         run: |
           scripts/check_public_site_artifacts.py _site \
-            --schedule "$COURSE_SOURCE_DIR/coursedesign/session-schedule.json" \
+            --schedule "$COURSE_SOURCE_DIR/coursedesign/release-schedule.json" \
             --policy "$SOLUTION_KEY_POLICY"
 
       - name: Setup Pages

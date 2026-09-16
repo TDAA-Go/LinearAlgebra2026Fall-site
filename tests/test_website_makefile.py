@@ -1,4 +1,5 @@
 import os
+import json
 import re
 import shutil
 import socket
@@ -36,6 +37,48 @@ def run_make_dry_run_result(*args: str) -> subprocess.CompletedProcess[str]:
 
 
 class WebsiteMakefileTest(unittest.TestCase):
+    def test_noon_release_controls_generated_pdf_and_homepage(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            course = root / "course"
+            site = root / "site"
+            shutil.copytree(FIXTURE_COURSE, course)
+            (course / "coursedesign/release-schedule.json").write_text(json.dumps([
+                {"week": 1, "action": "validation", "date": "2026-09-14", "time": "12:00"}
+            ]))
+            # The session's old delay would incorrectly hold the key until 15:00.
+            (course / "coursedesign/session-schedule.json").write_text(json.dumps([
+                {"week": 1, "session_datetime": "2026-09-11T15:00:00+08:00", "solution_release_delay_days": 3}
+            ]))
+            compiler = root / "typst"
+            compiler.write_text('#!/bin/bash\nprintf "%%PDF-1.7\\n" > "${@: -1}"\n')
+            compiler.chmod(0o755)
+            resolver = root / "resolve"
+            resolver.write_text('#!/bin/bash\nexec python3 scripts/solution_release_state.py "$@" --now "$RELEASE_TEST_NOW"\n')
+            resolver.chmod(0o755)
+            env = dict(os.environ, PATH=f"{root}:{os.environ['PATH']}")
+            for now, released in (("2026-09-14T11:59:59+08:00", False),
+                                  ("2026-09-14T12:00:00+08:00", True),
+                                  ("2026-09-14T11:59:59+08:00", False)):
+                with self.subTest(now=now, released=released):
+                    result = subprocess.run([
+                        "make", "index", f"COURSE_SOURCE_DIR={course}", f"SITE_DIR={site}",
+                        f"SOLUTION_RELEASE={resolver}",
+                    ], cwd=ROOT, env=dict(env, RELEASE_TEST_NOW=now), capture_output=True, text=True)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertEqual((site / "pdfs/week1-1.validation-solution.pdf").exists(), released)
+                    self.assertEqual((site / "week1-1.validation-solution.html").exists(), released)
+                    match = re.search(r'const pages = (\[.*?\]);', (site / 'index.html').read_text())
+                    page = json.loads(match[1])[0]
+                    self.assertEqual(page['solutionStatus'], 'released' if released else 'pending')
+                    self.assertEqual(page['solutionAvailableAt'], '2026-09-14T12:00:00+08:00')
+                    self.assertEqual(bool(page['solution']), released)
+            (course / "coursedesign/release-schedule.json").write_text('[invalid JSON')
+            result = subprocess.run([
+                "make", "validation-pdfs", f"COURSE_SOURCE_DIR={course}", f"SITE_DIR={site}",
+            ], cwd=ROOT, env=env, capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+
     def test_playground_html_and_assets_come_from_same_course_source(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             course = Path(tmp) / "course"
