@@ -38,6 +38,7 @@ jobs:
           sparse-checkout: |
             /config.toml
             /config.typ
+            /.claude/skills/tutor/SKILL.md
             /templates/
             /week*/**.learning-sheet.typ
             /week*/**.validation.typ

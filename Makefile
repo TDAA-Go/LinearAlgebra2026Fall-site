@@ -243,6 +243,7 @@ instructor-guide: $(SITE_DIR) styles
 student-guide: $(SITE_DIR) styles
 	@echo "🎓 Rendering student guide..."
 	@$(SUB_HTML) .github/templates/student-guide.html > $(SITE_DIR)/student-guide.html
+	@python3 scripts/publish_tutor_skill.py "$(COURSE_SOURCE_ROOT)/.claude/skills/tutor/SKILL.md" "$(SITE_DIR)/student-guide.html"
 
 
 # Render the interactive 3D playground when the course source ships one.
