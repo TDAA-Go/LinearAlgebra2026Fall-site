@@ -9,6 +9,7 @@
   <style>
     /* Copy-to-clipboard button on prompt blocks */
     main pre { position: relative; }
+    #tutor-skill pre { white-space: pre-wrap; overflow-wrap: anywhere; padding-top: 2.5rem; }
     .copy-btn {
       position: absolute;
       top: 0.5rem;
@@ -68,11 +69,42 @@
     <nav class="toc">
       <div class="toc-title">On this page</div>
       <ol class="toc-list">
+        <li><a href="#tutor-skill">Download the tutor skill</a></li>
         <li><a href="#setup"><span class="toc-number">01</span> Read, discuss, then check yourself</a></li>
         <li><a href="#habits"><span class="toc-number">02</span> Six tricks that make it click</a></li>
         <li><a href="#faq"><span class="toc-number">03</span> Frequently asked</a></li>
       </ol>
     </nav>
+
+    <section class="section" id="tutor-skill">
+      <header class="section-header">
+        <h2 class="section-title">Set up your <em>tutor</em></h2>
+      </header>
+      <p>
+        This instruction file asks your AI to explain a small example, wait for
+        your exercise attempt, and check what you can do without hints.
+      </p>
+      <p>
+        <a href="skills/tutor/SKILL.md" download="SKILL.md">Download tutor skill (.md)</a>
+        &middot; <a href="skills/tutor/SKILL.md">View the file</a>
+      </p>
+      <ul>
+        <li><strong>Using a chat app?</strong> Expand the instructions below,
+          copy them, and paste them into a new chat. Attach this week's learning
+          sheet and any exercises you want to work on.</li>
+        <li><strong>Using an agent with skills?</strong> Download the file and
+          install it using your app's skill instructions. Ask the agent to use
+          the tutor skill. Saving a file alone may not activate it.</li>
+      </ul>
+      <p>
+        Try one exercise. The tutor should wait for your attempt before showing
+        the answer. Check its explanations against the course material.
+      </p>
+      <details>
+        <summary>Read or copy the tutor instructions</summary>
+        <pre><code>{{TUTOR_SKILL}}</code></pre>
+      </details>
+    </section>
 
     <section class="section" id="setup">
       <header class="section-header">
@@ -150,13 +182,10 @@
               </tbody>
             </table>
             <p>
-              Make a free account, upload this week's learning-sheet PDF, and
-              set the ground rules so it acts like a tutor:
+              Upload this week's learning-sheet PDF and use the
+              <a href="#tutor-skill">tutor skill above</a> to set the ground
+              rules. Tell the tutor which Part you want to work on.
             </p>
-<pre><code>I've attached this week's linear algebra learning sheet, which
-I've already read. Don't dump explanations on me — wait for my
-questions, keep answers short, and use a small numeric example
-whenever you can. Ready? Ask me which part I want to dig into.</code></pre>
           </div>
         </li>
 

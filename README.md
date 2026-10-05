@@ -38,3 +38,10 @@ before reporting success. Hourly site builds remain a backup.
 
 The private course repository separately needs `SITE_DISPATCH_TOKEN` so it can
 trigger this repository's `repository_dispatch` deploy workflow.
+
+## Student tutor skill
+
+The Student guide embeds the course source's `.claude/skills/tutor/SKILL.md`
+and offers the same file at `skills/tutor/SKILL.md`. Edit the course source,
+not the generated page or download. The build HTML-escapes the instructions
+and copies only this explicitly public skill, not the other agent files.
