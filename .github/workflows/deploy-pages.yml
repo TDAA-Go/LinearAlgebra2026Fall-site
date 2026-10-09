@@ -46,6 +46,9 @@ jobs:
             /week*/*.bib
             /coursedesign/release-schedule.json
             /coursedesign/session-schedule.json
+            /coursedesign/self-study.typ
+            /coursedesign/self-study-figures.typ
+            /ref.bib
             /.github/templates/playground.html
             /.github/templates/assets/playground/
 

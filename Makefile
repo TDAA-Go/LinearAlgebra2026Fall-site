@@ -1,4 +1,4 @@
-.PHONY: all clean serve build pdfs validation-pdfs output-pdfs viewers index setup-guide about instructor-guide student-guide playground styles assets compile-tests dump-solutions help watch serve-only
+.PHONY: all clean serve build pdfs validation-pdfs output-pdfs viewers index setup-guide about instructor-guide student-guide self-study playground styles assets compile-tests dump-solutions help watch serve-only
 
 # Output directory
 SITE_DIR := _site
@@ -71,7 +71,7 @@ WEEKLY_PACKET_FILES := $(shell find "$(COURSE_SOURCE_ROOT)"/week* -maxdepth 1 -t
 
 all: build
 
-build: pdfs validation-pdfs viewers setup-guide about instructor-guide student-guide playground index
+build: pdfs validation-pdfs viewers setup-guide about instructor-guide self-study student-guide playground index
 	@echo "✅ Build complete! Run 'make serve' to preview locally."
 
 # Create directories
@@ -238,6 +238,18 @@ about: $(SITE_DIR) styles assets
 instructor-guide: $(SITE_DIR) styles
 	@echo "🧑‍🏫 Rendering instructor's guide..."
 	@$(SUB_HTML) .github/templates/instructor-guide.html > $(SITE_DIR)/instructor-guide.html
+
+# Compile the self-study seminar note when the course source ships one.
+# The fixture course used by CI has no note; skip quietly there.
+SELF_STUDY_SRC := $(COURSE_SOURCE_ROOT)/coursedesign/self-study.typ
+
+self-study: $(PDF_DIR)
+	@if [ -f "$(SELF_STUDY_SRC)" ]; then \
+		echo "📄 Compiling the self-study seminar note..."; \
+		typst compile --root "$(COURSE_SOURCE_ROOT)" "$(SELF_STUDY_SRC)" "$(PDF_DIR)/self-study.pdf" || exit $$?; \
+	else \
+		echo "⏭️  No self-study note in course source; skipping."; \
+	fi
 
 # Render student guide page
 student-guide: $(SITE_DIR) styles
